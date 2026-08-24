@@ -144,7 +144,7 @@ vec4 renderClouds(vec2 p, float t, float rain, vec3 horizonCol, vec3 zenithCol, 
 
 // aurora is rendered on clouds layer
 #ifdef NL_AURORA
-vec4 renderAurora(vec3 p, float t, float rain, float nightFactor) {
+vec4 renderAurora(vec3 p, float t, float rain, float dayFactor) {
   t *= NL_AURORA_VELOCITY;
   p.xz *= NL_AURORA_SCALE;
   p.xz += 0.05*sin(p.x*4.0 + 20.0*t);
@@ -155,7 +155,8 @@ vec4 renderAurora(vec3 p, float t, float rain, float nightFactor) {
   d0 *= d0; d1 *= d1; d2 *= d2;
   d2 = d0/(1.0 + d2/NL_AURORA_WIDTH);
 
-  float mask = (1.0-0.8*rain)*nightFactor;
+  float mask = max(-dayFactor, 0.0);
+  mask *= mask*(1.0-0.8*rain);
   return vec4(NL_AURORA*mix(NL_AURORA_COL1,NL_AURORA_COL2,d1),1.0)*d2*mask;
 }
 #endif

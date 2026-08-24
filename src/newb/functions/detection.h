@@ -7,11 +7,11 @@ struct nl_environment {
   bool end;
   bool nether;
   bool underwater;
-  float rainFactor;
-  float dayFactor;
-  vec3 sunDir;
-  vec3 moonDir;
-  vec3 fogCol;
+  float rainFactor; // [0.0, 1.0]
+  float dayFactor;  // [-1.0, 1.0]
+  vec3 sunDir;      // normalized
+  vec3 moonDir;     // normalized
+  vec3 fogCol;      // [0.0, 1.0]
 };
 
 bool detectEnd(vec3 FOG_COLOR) {

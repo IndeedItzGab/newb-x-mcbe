@@ -10,4 +10,4 @@ vec4 v_color0       : COLOR0;
 vec4 v_color1       : COLOR1;
 vec4 v_color2       : COLOR2;
 
-float v_nightFactor  : FACTOR0;
+float v_dayFactor  : FACTOR0;

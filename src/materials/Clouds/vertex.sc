@@ -5,7 +5,7 @@ $input a_color0, a_position
 $output v_color0
 #include <newb/config.h>
 #if NL_CLOUD_TYPE >= 2
-  $output v_color1, v_color2, v_nightFactor
+  $output v_color1, v_color2, v_dayFactor
 #endif
 
 #include <bgfx_shader.sh>
@@ -41,7 +41,6 @@ void main() {
   nl_skycolor skycol = nlOverworldSkyColors(env);
   vec3 pos = a_position;
   vec3 worldPos;
-  float nightFactor = smoothstep(-0.47, -0.51, env.dayFactor);
 
   #if NL_CLOUD_TYPE <= 2
 
@@ -90,13 +89,13 @@ void main() {
         color.a *= NL_CLOUD1_OPACITY;
 
         #ifdef NL_AURORA
-          color += renderAurora(cloudPos, t, rain, nightFactor)*(1.0-color.a);
+          color += renderAurora(cloudPos, t, rain, env.dayFactor)*(1.0-color.a);
         #endif
 
         color.a *= fade;
         color.rgb = colorCorrection(color.rgb);
       #else // NL_CLOUD_TYPE 2
-        v_nightFactor = nightFactor;
+        v_dayFactor = env.dayFactor;
         v_color1 = vec4(skycol.zenith, rain);
         v_color2 = vec4(skycol.horizonEdge, ViewPositionAndTime.w);
         color = vec4(worldPos, fade);
@@ -119,10 +118,10 @@ void main() {
 
     worldPos = mul(u_invViewProj, apos).xyz;
 
+    v_dayFactor = env.dayFactor;
     v_color0 = vec4(worldPos, h*h);
     v_color1 = vec4(skycol.zenith, rain);
     v_color2 = vec4(skycol.horizonEdge, ViewPositionAndTime.w);
-    v_nightFactor = nightFactor;
     gl_Position = apos;
   #endif
 }

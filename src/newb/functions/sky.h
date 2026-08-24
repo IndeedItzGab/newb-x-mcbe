@@ -116,7 +116,7 @@ vec3 renderOverworldSky(nl_skycolor skyCol, nl_environment env, vec3 viewDir, bo
   }
 
   #ifdef NL_RAINBOW
-    if(!env.underwater) {
+    if (!env.underwater) {
       float rainbowFade = 0.5 + 0.5*viewDir.y;
       rainbowFade *= rainbowFade;
       rainbowFade *= mix(NL_RAINBOW_CLEAR, NL_RAINBOW_RAIN, env.rainFactor);
