@@ -17,11 +17,7 @@ void main() {
     pos.x = -pos.x;
 
     mat4 model = u_model[0];
-    #if BGFX_SHADER_LANGUAGE_HLSL 
-      vec2 dir = vec2(model[0][3], model[1][3]);
-    #else
-      vec2 dir = vec2(model[3][0], model[3][1]);
-    #endif
+    vec2 dir = mul(u_model[0], vec4(0.0, 0.0, 0.0, 1.0)).xy;
     float st = 2.0*PI*TimeOfDay.x + 0.5*PI;
     bool isSun = dot(vec2(cos(st), sin(st)), dir) > 0.0;
 
